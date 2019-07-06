@@ -1,11 +1,11 @@
 server:
   port: 8090
-  context-path: web
+  context-path: /web
 
 spring:
   profiles:
     include: env
-    active: dev
+
 management:
   security:
     enabled: false

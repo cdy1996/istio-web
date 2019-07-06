@@ -6,4 +6,7 @@ spring:
   profiles:
     include: env
     active: dev
+management:
+  security:
+    enabled: false
 

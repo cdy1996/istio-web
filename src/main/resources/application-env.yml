@@ -1,0 +1,14 @@
+---
+spring:
+  profiles: dev
+
+logging:
+  path: ./
+
+---
+#test
+spring:
+  profiles: test
+
+logging:
+  path: /logs/

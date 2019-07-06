@@ -1,0 +1,9 @@
+server:
+  port: 8090
+  context-path: web
+
+spring:
+  profiles:
+    include: env
+    active: dev
+

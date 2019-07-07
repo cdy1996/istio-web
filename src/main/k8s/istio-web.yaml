@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-web-service
+  labels:
+    app: istio-web
+spec:
+  selector:
+    app: istio-web
+  ports:
+  - name: http
+    port: 8090
+    targetPort: 8090
+  type: NodePort
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-web-v1
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: istio-web
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: istio-web
+        version: v1
+    spec:
+      containers:
+      - name: istio-web
+       # image: cdy1996/istio-web:1.0
+        image: registry.cn-hangzhou.aliyuncs.com/cdy1996/istio-web:2.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8090
+        volumeMounts:
+        - name: log
+          mountPath: /logs
+        env:
+        - name: version
+          value: v1
+        - name: spring.profiles.active
+          value: test
+      volumes:
+      - name: log
+        hostPath:
+          path:  /home/cdy/istio-java/logs/v1 
+          type: DirectoryOrCreate
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-web-v2
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: istio-web
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: istio-web
+        version: v2
+    spec:
+      containers:
+      - name: myapp
+        image: registry.cn-hangzhou.aliyuncs.com/cdy1996/istio-web:2.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8090
+        volumeMounts:
+        - name: log
+          mountPath: /logs
+        env:
+        - name: version
+          value: v2
+        - name: spring.profiles.active
+          value: test
+      volumes:
+      - name: log
+        hostPath:
+          path:  /home/cdy/istio-java/logs/v2
+          type: DirectoryOrCreate
+
+
+

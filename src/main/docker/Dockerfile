@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8u212-jre
 
 MAINTAINER cdy chendongyi_1996@163.com
 
